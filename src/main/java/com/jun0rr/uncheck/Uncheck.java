@@ -41,7 +41,7 @@ public class Uncheck {
     
     
     @FunctionalInterface
-    public interface UncheckSupplier<R> {
+    public interface ThrowableSupplier<R> {
         R get() throws Throwable;
     }
 
@@ -50,7 +50,7 @@ public class Uncheck {
      * @return return of supplier.
      * @see #uncheck(Throwable)
      */
-    public static <R> R call(UncheckSupplier<R> supplier) {
+    public static <R> R call(ThrowableSupplier<R> supplier) {
         try {
             return supplier.get();
         } catch (Throwable e) {
@@ -60,7 +60,7 @@ public class Uncheck {
 
 
     @FunctionalInterface
-    public interface UncheckRunnable {
+    public interface ThrowableRunner {
         void run() throws Throwable;
     }
 
@@ -68,9 +68,9 @@ public class Uncheck {
      * Executes given runnable, catches and rethrows checked exceptions as RuntimeException.
      * @see #uncheck(Throwable)
      */
-    public static void call(UncheckRunnable runnable) {
+    public static void call(ThrowableRunner runner) {
         try {
-            runnable.run();
+            runner.run();
         } catch (Throwable e) {
             throw Uncheck.<RuntimeException>uncheck(e);
         }
